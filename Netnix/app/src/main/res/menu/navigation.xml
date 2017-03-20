@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_shows"
+        android:icon="@drawable/ic_add_to_queue_black_24dp"
+        android:title="@string/title_shows" />
+
+    <item
+        android:id="@+id/navigation_episodes"
+        android:icon="@drawable/ic_sort_black_24dp"
+        android:title="@string/title_episodes" />
+
+    <item
+        android:id="@+id/navigation_schedule"
+        android:icon="@drawable/ic_event_note_black_24dp"
+        android:title="@string/title_schedule" />
+
+</menu>
