@@ -2,69 +2,95 @@ package com.example.patrick.netnix;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.support.v4.util.LruCache;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 /**
  * Created by Patrick on 3/20/2017.
  */
 
 public class ApiService {
-        private static ApiService mInstance;
-        private RequestQueue mRequestQueue;
-        private ImageLoader mImageLoader;
-        private static Context mCtx;
+    private final String BASE_URL = "http://api.tvmaze.com/";
 
-        private ApiService(Context context) {
-            mCtx = context;
-            mRequestQueue = getRequestQueue();
+    private static ApiService mInstance;
+    private RequestQueue mRequestQueue;
+    private ImageLoader mImageLoader;
+    private static Context mCtx;
 
-            mImageLoader = new ImageLoader(mRequestQueue,
-                    new ImageLoader.ImageCache() {
-                        private final LruCache<String, Bitmap>
-                                cache;
+    private ApiService(Context context) {
+        mCtx = context;
+        mRequestQueue = getRequestQueue();
 
-                        {
-                            cache = new LruCache<String, Bitmap>(20);
-                        }
+        mImageLoader = new ImageLoader(mRequestQueue,
+                new ImageLoader.ImageCache() {
+                    private final LruCache<String, Bitmap>
+                            cache;
 
-                        @Override
-                        public Bitmap getBitmap(String url) {
-                            return cache.get(url);
-                        }
+                    {
+                        cache = new LruCache<String, Bitmap>(20);
+                    }
 
-                        @Override
-                        public void putBitmap(String url, Bitmap bitmap) {
-                            cache.put(url, bitmap);
-                        }
-                    });
+                    @Override
+                    public Bitmap getBitmap(String url) {
+                        return cache.get(url);
+                    }
+
+                    @Override
+                    public void putBitmap(String url, Bitmap bitmap) {
+                        cache.put(url, bitmap);
+                    }
+                });
+    }
+
+    public static synchronized ApiService getInstance(Context context) {
+        if (mInstance == null) {
+            mInstance = new ApiService(context);
         }
+        return mInstance;
+    }
 
-        public static synchronized ApiService getInstance(Context context) {
-            if (mInstance == null) {
-                mInstance = new ApiService(context);
-            }
-            return mInstance;
+    public RequestQueue getRequestQueue() {
+        if (mRequestQueue == null) {
+            // getApplicationContext() is key, it keeps you from leaking the
+            // Activity or BroadcastReceiver if someone passes one in.
+            mRequestQueue = Volley.newRequestQueue(mCtx.getApplicationContext());
         }
+        return mRequestQueue;
+    }
 
-        public RequestQueue getRequestQueue() {
-            if (mRequestQueue == null) {
-                // getApplicationContext() is key, it keeps you from leaking the
-                // Activity or BroadcastReceiver if someone passes one in.
-                mRequestQueue = Volley.newRequestQueue(mCtx.getApplicationContext());
-            }
-            return mRequestQueue;
-        }
+    public <T> void addToRequestQueue(Request<T> req) {
+        getRequestQueue().add(req);
+    }
 
-        public <T> void addToRequestQueue(Request<T> req) {
-            getRequestQueue().add(req);
-        }
+    public ImageLoader getImageLoader() {
+        return mImageLoader;
+    }
 
-        public ImageLoader getImageLoader() {
-            return mImageLoader;
-        }
+    public void getShows(String show, Response.Listener<JSONArray> onResponse, Response.ErrorListener onError) {
+
+        String url = BASE_URL + "search/shows?q=" + show;
+        JsonArrayRequest jsArrRequest = new JsonArrayRequest(Request.Method.GET, url, null, onResponse, onError);
+        // Add a request (in this example, called stringRequest) to your RequestQueue.
+        addToRequestQueue(jsArrRequest);
+    }
+
+
 }

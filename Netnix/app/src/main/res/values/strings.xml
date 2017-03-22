@@ -3,4 +3,5 @@
     <string name="title_shows">Shows</string>
     <string name="title_episodes">Episodes</string>
     <string name="title_schedule">Schedule</string>
+    <string name="search_hint">Search shows...</string>
 </resources>

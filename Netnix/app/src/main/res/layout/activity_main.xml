@@ -8,15 +8,29 @@
     android:orientation="vertical"
     tools:context="com.example.patrick.netnix.MainActivity">
 
-    <FrameLayout
-        android:id="@+id/content"
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/my_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+    <HorizontalScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_weight="1" >
+
+    <LinearLayout
+        android:id="@+id/content"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent" >
 
         <TextView
             android:id="@+id/message"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/activity_vertical_margin"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
@@ -24,7 +38,15 @@
             android:layout_marginTop="@dimen/activity_vertical_margin"
             android:text="@string/title_shows" />
 
-    </FrameLayout>
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/my_recycler_view"
+            android:orientation="horizontal" />
+
+    </LinearLayout>
+
+    </HorizontalScrollView>
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/navigation"
