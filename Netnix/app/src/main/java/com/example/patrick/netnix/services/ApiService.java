@@ -1,27 +1,18 @@
-package com.example.patrick.netnix;
+package com.example.patrick.netnix.services;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.support.v4.util.LruCache;
-import android.util.Log;
-import android.widget.Toast;
+import android.text.Html;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
-import org.json.JSONException;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 /**
  * Created by Patrick on 3/20/2017.
@@ -41,8 +32,7 @@ public class ApiService {
 
         mImageLoader = new ImageLoader(mRequestQueue,
                 new ImageLoader.ImageCache() {
-                    private final LruCache<String, Bitmap>
-                            cache;
+                    private final LruCache<String, Bitmap> cache;
 
                     {
                         cache = new LruCache<String, Bitmap>(20);
@@ -58,6 +48,7 @@ public class ApiService {
                         cache.put(url, bitmap);
                     }
                 });
+
     }
 
     public static synchronized ApiService getInstance(Context context) {
@@ -86,7 +77,7 @@ public class ApiService {
 
     public void getShows(String show, Response.Listener<JSONArray> onResponse, Response.ErrorListener onError) {
 
-        String url = BASE_URL + "search/shows?q=" + show;
+        String url = BASE_URL + "search/shows?q=" + Html.escapeHtml(show);
         JsonArrayRequest jsArrRequest = new JsonArrayRequest(Request.Method.GET, url, null, onResponse, onError);
         // Add a request (in this example, called stringRequest) to your RequestQueue.
         addToRequestQueue(jsArrRequest);
