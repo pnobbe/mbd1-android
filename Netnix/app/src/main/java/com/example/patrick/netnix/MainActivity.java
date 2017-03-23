@@ -1,6 +1,8 @@
 package com.example.patrick.netnix;
 
-
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
@@ -8,37 +10,21 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.text.Html;
+
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.example.patrick.netnix.adapters.ShowsAdapter;
-import com.example.patrick.netnix.models.Show;
-import com.example.patrick.netnix.services.ApiService;
-
-import org.json.JSONArray;
-
-import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView mTextMessage;
+    private static final String TAG_CONTENT = "content";
 
-    private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
 
-    private ArrayList<Show> data;
-
+    private Fragment mContent;
+    private BottomNavigationView navigation;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -47,13 +33,10 @@ public class MainActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_shows:
-                    getShows("Gotham");
-                    return true;
-                case R.id.navigation_episodes:
-                    getShows("Suits");
+                    setContent(new ShowListFragment());
                     return true;
                 case R.id.navigation_schedule:
-                    getShows("Game of Thrones");
+                    setContent(new ScheduleFragment());
                     return true;
             }
             return false;
@@ -64,29 +47,37 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // find the retained fragment on activity restarts
+        FragmentManager fm = getSupportFragmentManager();
+        mContent = fm.findFragmentByTag("content");
+        Log.d("CONTENT2", mContent+"");
+
         setContentView(R.layout.activity_main);
 
-        handleIntent(getIntent());
+        if (mContent == null) {
+            setContent(new ShowListFragment());
+        }
 
-        mTextMessage = (TextView) findViewById(R.id.message);
-
-        // Use a linear layout manager
-        mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
-        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getBaseContext(), LinearLayoutManager.HORIZONTAL, false));
+        navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         // Declare our toolbar and apply it to our layout
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
 
+        handleIntent(getIntent());
+    }
 
-        // Specify an adapter
-        data = new ArrayList<Show>();
-        mAdapter = new ShowsAdapter(data, getResources().getConfiguration(), getBaseContext());
-        mRecyclerView.setAdapter(mAdapter);
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
 
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        //Save the fragment's instance
+        if (mContent != null) {
+            if (mContent.isAdded()) {
+                getSupportFragmentManager().putFragment(outState, TAG_CONTENT, mContent);
+            }
+        }
     }
 
     @Override
@@ -97,39 +88,20 @@ public class MainActivity extends AppCompatActivity {
     private void handleIntent(Intent intent) {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
-            getShows(query);
+            Bundle b = new Bundle();
+            b.putString("query", query);
+            setContent(new ShowListFragment(),b);
         }
-    }
 
-    private void getShows(final String query) {
-        // Clear screen from previous data/query
-        mTextMessage.setText("");
-        data.clear();
-
-        ApiService.getInstance(this).getShows(query, new Response.Listener<JSONArray>() {
-            @Override
-            public void onResponse(JSONArray response) {
-                try {
-                    if (response.length() > 0) {
-                        mTextMessage.setText("Search results for '" + query + "'...");
-                        for (int i = 0; i < response.length(); i++) {
-                            data.add(new Show(response.getJSONObject(i)));
-                        }
-                        mAdapter.notifyDataSetChanged();
-                    } else {
-                        mTextMessage.setText("No shows found under '" + query + "'.");
-                    }
-                } catch (final Exception e) {
-                    showError(e);
-                }
+        if (mContent != null) {
+            if (mContent instanceof ShowListFragment) {
+                navigation.getMenu().getItem(0).setChecked(true);
+            }
+            if (mContent instanceof ScheduleFragment) {
+                navigation.getMenu().getItem(1).setChecked(true);
 
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError e) {
-                showError(e);
-            }
-        });
+        }
     }
 
     // Menu icons are inflated just as they were with actionbar
@@ -139,31 +111,30 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.tools, menu);
 
         // Associate searchable configuration with the SearchView
-        SearchManager searchManager =
-                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView =
-                (SearchView) menu.findItem(R.id.search).getActionView();
-        searchView.setSearchableInfo(
-                searchManager.getSearchableInfo(getComponentName()));
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
 
         return true;
     }
 
-    /*
-    * Lazy error handler
-    */
-    public void showError(final Exception message) {
-        Log.e("Volley Error", message.getMessage());
-        message.printStackTrace();
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(getApplicationContext(),
-                        message.getMessage(),
-                        Toast.LENGTH_SHORT)
-                        .show();
-            }
-        });
+    public void setContent(Fragment content) {
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+
+        ft.replace(R.id.content, content, TAG_CONTENT).commit();
+        this.mContent = content;
+    }
+
+    public void setContent(Fragment content, Bundle arguments) {
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+
+        // Set arguments
+        content.setArguments(arguments);
+
+        ft.replace(R.id.content, content, TAG_CONTENT).commit();
+        this.mContent = content;
     }
 
 }

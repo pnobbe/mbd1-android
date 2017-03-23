@@ -1,20 +1,18 @@
 package com.example.patrick.netnix.models;
 
-import android.content.Context;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- * Object that represents a show
+ * Object that represents an episode
  */
 
-public class Show {
+public class Episode {
 
     private JSONObject json;
     private JSONObject show;
 
-    public Show(JSONObject o) {
+    public Episode(JSONObject o) {
         this.json = o;
 
         try {
@@ -25,7 +23,7 @@ public class Show {
     }
 
     /*
-    * Get the show ID.
+    * Get the episode ID.
     */
     public String getId(){
         String res = "";

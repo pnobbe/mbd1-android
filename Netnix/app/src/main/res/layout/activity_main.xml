@@ -20,11 +20,8 @@
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1">
-
-        <include
-            layout="@layout/shows"
-            android:id="@+id/shows" />
+        android:layout_weight="1"
+        android:id="@+id/content">
 
     </FrameLayout>
 

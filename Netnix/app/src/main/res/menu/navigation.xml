@@ -7,11 +7,6 @@
         android:title="@string/title_shows" />
 
     <item
-        android:id="@+id/navigation_episodes"
-        android:icon="@drawable/ic_sort_black_24dp"
-        android:title="@string/title_episodes" />
-
-    <item
         android:id="@+id/navigation_schedule"
         android:icon="@drawable/ic_event_note_black_24dp"
         android:title="@string/title_schedule" />

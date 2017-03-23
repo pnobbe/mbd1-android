@@ -9,12 +9,14 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
+import com.example.patrick.netnix.ShowListFragment;
 import com.example.patrick.netnix.services.ApiService;
 import com.example.patrick.netnix.R;
 import com.example.patrick.netnix.models.Show;
@@ -31,6 +33,7 @@ public class ShowsAdapter extends RecyclerView.Adapter<ShowsAdapter.ViewHolder> 
     private ArrayList<Show> mDataset;
     private Configuration mConf;
     private Context mContext;
+    private AdapterListener mListener;
     private Typeface typeface;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -38,13 +41,16 @@ public class ShowsAdapter extends RecyclerView.Adapter<ShowsAdapter.ViewHolder> 
         public ViewHolder(CardView v) {
             super(v);
             mCard = v;
+
         }
     }
 
-    public ShowsAdapter(ArrayList<Show> myDataset, Configuration conf, Context cont) {
+    public ShowsAdapter(ArrayList<Show> myDataset, Configuration conf, Context cont, AdapterListener listener) {
         mDataset = myDataset;
         mConf = conf;
         mContext = cont;
+        mListener = listener;
+
         typeface = Typeface.createFromAsset(mContext.getAssets(), "fonts/Roboto-Light.ttf");
     }
 
@@ -63,13 +69,20 @@ public class ShowsAdapter extends RecyclerView.Adapter<ShowsAdapter.ViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
         final ImageView mImage = (ImageView) holder.mCard.findViewById(R.id.img);
 
         // Set title
         TextView mText = (TextView) holder.mCard.findViewById(R.id.name);
         mText.setTypeface(typeface);
         mText.setText(mDataset.get(position).getName());
+
+        holder.mCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mListener.onItemClick(mDataset.get(position));
+            }
+        });
 
         // If the show has no image, don't attempt to retrieve it with the ImageLoader.
         if (mDataset.get(position).getImageURL() == null) {
