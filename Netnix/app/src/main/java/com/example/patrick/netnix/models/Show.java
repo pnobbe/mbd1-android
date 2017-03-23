@@ -82,4 +82,35 @@ public class Show {
         return res;
     }
 
+    /*
+    * Get the show rating.
+    */
+    public float getRating(){
+        int res = 0;
+        try {
+            if (!show.isNull("rating")) {
+                res = show.getJSONObject("rating").getInt("average");
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return 0;
+        }
+        return (float) res / 2;
+    }
+
+    /*
+    * Get the show summary.
+    */
+    public String getSummary() {
+        String res = "";
+        try {
+            res = show.getString("summary");
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return "No description available.";
+        }
+        return res;
+    }
+
+
 }

@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.example.patrick.netnix.ShowListFragment;
+import com.example.patrick.netnix.Util;
 import com.example.patrick.netnix.services.ApiService;
 import com.example.patrick.netnix.R;
 import com.example.patrick.netnix.models.Show;
@@ -86,7 +87,7 @@ public class ShowsAdapter extends RecyclerView.Adapter<ShowsAdapter.ViewHolder> 
 
         // If the show has no image, don't attempt to retrieve it with the ImageLoader.
         if (mDataset.get(position).getImageURL() == null) {
-            mImage.setImageBitmap(getDefaultImage());
+            mImage.setImageBitmap(Util.getDefaultImage(mContext));
             return;
         }
 
@@ -101,7 +102,7 @@ public class ShowsAdapter extends RecyclerView.Adapter<ShowsAdapter.ViewHolder> 
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                mImage.setImageBitmap(getDefaultImage());
+                mImage.setImageBitmap(Util.getDefaultImage(mContext));
             }
         });
     }
@@ -111,16 +112,5 @@ public class ShowsAdapter extends RecyclerView.Adapter<ShowsAdapter.ViewHolder> 
         return mDataset.size();
     }
 
-    /*
-    * Get a default image from our asset storage.
-    */
-    private Bitmap getDefaultImage() {
-        try {
-            InputStream ims = mContext.getAssets().open("images/undefined.png");
-            return BitmapFactory.decodeStream(ims);
-        } catch(IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
+
 }

@@ -2,8 +2,13 @@ package com.example.patrick.netnix;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.widget.Toast;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * Created by Patrick on 3/22/2017.
@@ -26,6 +31,19 @@ public class Util {
                         .show();
             }
         });
+    }
+
+    /*
+* Get a default image from our asset storage.
+*/
+    public static Bitmap getDefaultImage(Context context) {
+        try {
+            InputStream ims = context.getAssets().open("images/undefined.png");
+            return BitmapFactory.decodeStream(ims);
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }

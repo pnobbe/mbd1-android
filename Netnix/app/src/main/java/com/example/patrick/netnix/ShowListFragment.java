@@ -115,9 +115,7 @@ public class ShowListFragment extends Fragment implements AdapterListener {
     public void onItemClick(Object o) {
         try {
             Show s = (Show) o;
-            getFragmentManager().beginTransaction().replace(R.id.content, new ShowDetailFragment(), "test").addToBackStack(null).commit();
-            Log.d("SHOW CLICKED", s.getId() + " " + getFragmentManager().getBackStackEntryCount());
-
+            getFragmentManager().beginTransaction().replace(R.id.content, new ShowDetailFragment(s), "test").addToBackStack(null).commit();
         } catch (ClassCastException e) {
             e.printStackTrace();
         }
