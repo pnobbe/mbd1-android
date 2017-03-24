@@ -2,6 +2,7 @@ package com.example.patrick.netnix;
 
 import android.os.Bundle;
 
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -114,8 +115,12 @@ public class ShowListFragment extends Fragment implements AdapterListener {
     @Override
     public void onItemClick(Object o) {
         try {
+            ShowDetailFragment sdf = new ShowDetailFragment();
             Show s = (Show) o;
-            getFragmentManager().beginTransaction().replace(R.id.content, new ShowDetailFragment(s), "test").addToBackStack(null).commit();
+            Bundle b = new Bundle();
+            b.putParcelable("show", s);
+            sdf.setArguments(b);
+            getFragmentManager().beginTransaction().replace(R.id.content, sdf, "showdetail").addToBackStack(null).commit();
         } catch (ClassCastException e) {
             e.printStackTrace();
         }

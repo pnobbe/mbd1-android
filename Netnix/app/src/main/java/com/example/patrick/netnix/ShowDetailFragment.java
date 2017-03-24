@@ -42,10 +42,6 @@ public class ShowDetailFragment extends Fragment implements AdapterListener {
     private ArrayList<Season> data;
     private Show show;
 
-    public ShowDetailFragment(Show s) {
-        this.show = s;
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -53,10 +49,10 @@ public class ShowDetailFragment extends Fragment implements AdapterListener {
         View view = inflater.inflate(R.layout.fragment_show_detail,
                 container, false);
 
-        query = null;
+        show = null;
         Bundle args = getArguments();
         if (args != null) {
-            query = args.getString("query");
+            show = (Show) args.getParcelable("show");
         }
 
         mTextMessage = (TextView) view.findViewById(R.id.title);
@@ -65,11 +61,15 @@ public class ShowDetailFragment extends Fragment implements AdapterListener {
         mImage = (ImageView) view.findViewById(R.id.image);
         mSummary = (WebView) view.findViewById(R.id.summary);
 
+        if (show == null) {
+            mTextMessage.setText("Unable to load show data.");
+            return view;
+        }
+
         mTextMessage.setText(show.getName());
         mStatus.setText(show.getStatus());
         mRating.setRating(show.getRating());
         mSummary.loadData(show.getSummary(), "text/html; charset=utf-8", "utf-8");
-        Log.d("Rating", show.getRating()+"");
 
         // Get the image asynchronously through the ImageLoader.
         ApiService.getInstance(getContext()).getImageLoader().get(show.getImageURL(), new ImageLoader.ImageListener() {
@@ -100,8 +100,8 @@ public class ShowDetailFragment extends Fragment implements AdapterListener {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+        outState.putParcelable("show", show);
     }
-
 
     @Override
     public void onItemClick(Object o) {

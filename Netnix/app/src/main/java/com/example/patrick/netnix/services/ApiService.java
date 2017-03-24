@@ -83,5 +83,13 @@ public class ApiService {
         addToRequestQueue(jsArrRequest);
     }
 
+    public void getShow(String showId, Response.Listener<JSONArray> onResponse, Response.ErrorListener onError) {
+
+        String url = BASE_URL + "/shows/" + showId;
+        JsonArrayRequest jsArrRequest = new JsonArrayRequest(Request.Method.GET, url, null, onResponse, onError);
+        // Add a request (in this example, called stringRequest) to your RequestQueue.
+        addToRequestQueue(jsArrRequest);
+    }
+
 
 }

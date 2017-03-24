@@ -1,6 +1,8 @@
 package com.example.patrick.netnix.models;
 
 import android.content.Context;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -9,7 +11,7 @@ import org.json.JSONObject;
  * Object that represents a show
  */
 
-public class Show {
+public class Show implements Parcelable {
 
     private JSONObject json;
     private JSONObject show;
@@ -112,5 +114,34 @@ public class Show {
         return res;
     }
 
+    // Parcelling part
+    public Show(Parcel in) throws JSONException {
+        this.json = new JSONObject(in.readString());
+    }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(json.toString());
+    }
+
+    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+        public Show createFromParcel(Parcel in) {
+            try {
+                return new Show(new JSONObject(in.readString()));
+            }
+            catch (JSONException e) {
+                e.printStackTrace();
+                return new Show(new JSONObject());
+            }
+        }
+
+        public Show[] newArray(int size) {
+            return new Show[size];
+        }
+    };
 }
