@@ -16,9 +16,12 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.example.patrick.netnix.Cache;
 import com.example.patrick.netnix.R;
+import com.example.patrick.netnix.SerializationUtil;
 import com.example.patrick.netnix.Util;
 import com.example.patrick.netnix.models.Show;
 import com.example.patrick.netnix.services.ApiService;
+
+import java.io.IOException;
 
 import me.grantland.widget.AutofitHelper;
 
@@ -162,11 +165,23 @@ public class ShowDetailFragment extends Fragment implements AsyncListener {
 
     @Override
     public void callback(Object o) {
-        if (o != null && o instanceof Show) {
-            Show s = (Show) o;
-            ((Cache) this.getActivity().getApplication()).getMyShows().add(s);
-            s.saveToSharedPreference(getContext());
-            Util.showToast(getActivity().getString(R.string.follow_message, s.getName(), (s.getTotalEpisodes() - s.getWatchedEpisodes())), getActivity());
+        if (o != null) {
+            if (o instanceof Show) {
+                Show s = (Show) o;
+                ((Cache) this.getActivity().getApplication()).getMyShows().add(s);
+                s.saveToSharedPreference(getContext());
+                Util.showToast(getActivity().getString(R.string.follow_message, s.getName(), (s.getTotalEpisodes() - s.getWatchedEpisodes())), getActivity());
+            }
+            else if (o instanceof String) {
+                String id = (String) o;
+                try {
+                    Show s = SerializationUtil.deserialize(id, getContext());
+                    ((Cache) this.getActivity().getApplication()).getMyShows().add(s);
+                    Util.showToast(getActivity().getString(R.string.follow_message, s.getName(), (s.getTotalEpisodes() - s.getWatchedEpisodes())), getActivity());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 }

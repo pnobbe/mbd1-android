@@ -43,7 +43,6 @@ public class ApiService {
 
                     @Override
                     public Bitmap getBitmap(String url) {
-                        Log.d("IMGURL", url);
                         return cache.get(url);
                     }
 

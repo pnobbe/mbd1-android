@@ -114,6 +114,9 @@ public class ScheduleFragment extends Fragment implements AsyncListener, Adapter
                         epToAdd = null;
                     }
                 }
+                else {
+                    Util.showToast("Permission denied.", getActivity());
+                }
             }
         }
     }

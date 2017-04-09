@@ -86,7 +86,9 @@ public class EpisodesFragment extends Fragment implements AdapterListener {
             }
         });
 
-        setEpisodes(mSeasonData.get(0));
+        if (!mSeasonData.isEmpty()) {
+            setEpisodes(mSeasonData.get(0));
+        }
         return view;
     }
 

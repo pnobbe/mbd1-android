@@ -291,10 +291,16 @@ public class Show implements Parcelable, Serializable {
         editor.putBoolean(getId(), true);
         editor.apply();
 
-        // Retrieve all seasons and episodes from the API.
-        // We don't add the show to the cache or localstorage yet because the data would be incomplete.
-        // Let the AsyncListener's callback handle this.
-        getSeasonsFromApi(mActivity, mContext, listener);
+        // Check if we previously followed this show.
+        if (SerializationUtil.isSerialized(this, mContext)) {
+            // If so, load the show from localstorage show.
+            listener.callback(getId());
+        } else {
+            // Retrieve all seasons and episodes from the API.
+            // We don't add the show to the cache or localstorage yet because the data would be incomplete.
+            // Let the AsyncListener's callback handle this.
+            getSeasonsFromApi(mActivity, mContext, listener);
+        }
     }
 
     /**
@@ -311,7 +317,11 @@ public class Show implements Parcelable, Serializable {
 
         // Remove show from cache
         Cache c = ((Cache) mActivity.getApplication());
-        c.getMyShows().remove(c.getMyShows().indexOf(this));
+        for (Show s: c.getMyShows()) {
+            if (s.getId() == getId()) {
+                c.getMyShows().remove(s);
+            }
+        }
     }
 
 

@@ -18,7 +18,7 @@
     <string name="no_episodes_available">This season has no episodes available yet.</string>
     <string name="no_shows_followed">No shows follow yet.\n\nPlease follow a show in order to track its schedule.</string>
     <string name="known_schedule">Showing known schedule for your shows.</string>
-    <string name="agenda_toast">Click on an item to add it to your agenda.</string>
+    <string name="agenda_toast">Click on an item to add it to your calendar.</string>
     <string name="unable_to_load_show_data">Unable to load show data.</string>
     <string name="show_status">Status: %1$s</string>
     <string name="follow_message">Now following %1$s, added %2$d unwatched episodes to the backlog.</string>

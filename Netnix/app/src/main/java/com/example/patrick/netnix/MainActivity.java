@@ -80,8 +80,6 @@ public class MainActivity extends AppCompatActivity {
 
         //Save the fragment's instance
         if (mContent != null) {
-            Log.d("Content null?", mContent+"");
-
             if (mContent.isAdded()) {
                 getSupportFragmentManager().putFragment(outState, TAG_CONTENT, mContent);
             }

@@ -68,4 +68,8 @@ public class SerializationUtil {
         editor.putString(s.getId(), encoded);
         editor.apply();
     }
+
+    public static boolean isSerialized(Show s, Context mContext) {
+        return mContext.getSharedPreferences("showData", Context.MODE_PRIVATE).contains(s.getId());
+    }
 }

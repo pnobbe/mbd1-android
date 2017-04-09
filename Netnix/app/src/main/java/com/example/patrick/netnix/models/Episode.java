@@ -123,7 +123,7 @@ public class Episode implements Serializable {
 
                 String airdate = episode.getString("airdate");
                 String airtime = episode.getString("airtime");
-                String res = (airdate + ((airtime == null) ? " 00:00" : " " + airtime));
+                String res = (airdate + ((airtime.equals("")) ? " 00:00" : " " + airtime));
                 Date d = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(res);
                 Calendar c = Calendar.getInstance();
                 c.setTime(d);

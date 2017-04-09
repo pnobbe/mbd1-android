@@ -66,19 +66,23 @@ public class SeasonsAdapter extends RecyclerView.Adapter<SeasonsAdapter.ViewHold
         final Season s = mDataset.get(position);
 
         // Get the image asynchronously through the ImageLoader.
-        ApiService.getInstance(mContext).getImageLoader().get(mDataset.get(position).getImageURL(), new ImageLoader.ImageListener() {
-            @Override
-            public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
-                if (response.getBitmap() != null) {
-                    mImage.setImageBitmap(response.getBitmap());
+        if (mDataset.get(position).getImageURL() != null) {
+            ApiService.getInstance(mContext).getImageLoader().get(mDataset.get(position).getImageURL(), new ImageLoader.ImageListener() {
+                @Override
+                public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
+                    if (response.getBitmap() != null) {
+                        mImage.setImageBitmap(response.getBitmap());
+                    }
                 }
-            }
 
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                mImage.setImageBitmap(Util.getDefaultImage(mContext));
-            }
-        });
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    mImage.setImageBitmap(Util.getDefaultImage(mContext));
+                }
+            });
+        } else {
+            mImage.setImageBitmap(Util.getDefaultImage(mContext));
+        }
 
         // Set title
         TextView mText = (TextView) holder.mCard.findViewById(R.id.name);
