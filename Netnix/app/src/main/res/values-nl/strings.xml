@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="agenda_toast">Klik op een item om hem toe te voegen aan je agenda.</string>
+    <string name="check_seasons">Bekijk seizoenen</string>
+    <string name="episode_number">Aflevering %1$d</string>
+    <string name="follow">Volgen</string>
+    <string name="follow_message">%1$s wordt nu gevolgd. %2$d ongekeken afleveringen toegevoegd aan de planning.</string>
+    <string name="unfollow">Ontvolgen</string>
+    <string name="known_schedule">Bekende programma wordt getoond.</string>
+    <string name="my_shows">Mijn series</string>
+    <string name="no_episodes_available">Dit seizoen heeft nog geen beschikbare afleveringen.</string>
+    <string name="no_shows_followed">Je volgt nog geen series. \n\nVolg eerst een serie om zijn programma te kunnen volgen.</string>
+    <string name="not_watched">Niet gezien</string>
+    <string name="search_hint">Zoek series…</string>
+    <string name="season_number">Seizoen %1$d</string>
+    <string name="show_status">Status: %1$s</string>
+    <string name="title_schedule">Programma</string>
+    <string name="title_shows">Series</string>
+    <string name="today">Vandaag</string>
+    <string name="tomorrow">Morgen</string>
+    <string name="unable_to_load_show_data">Serie informatie kan niet getoond worden.</string>
+    <string name="updated_shows">%1$s geupdate.</string>
+    <string name="watched">Gezien</string>
+    <string name="no_shows_found">Geen shows gevonden voor \'%1$s\'…</string>
+    <string name="search_results_for">Zoekresultaten voor \'%1$s\'…</string>
+</resources>

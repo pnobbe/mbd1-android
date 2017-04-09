@@ -17,6 +17,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.patrick.netnix.fragments.ScheduleFragment;
+import com.example.patrick.netnix.fragments.ShowListFragment;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -24,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private Fragment mContent;
-    private BottomNavigationView navigation;
+    private BottomNavigationView mNavigation;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -36,6 +39,10 @@ public class MainActivity extends AppCompatActivity {
                     setContent(new ShowListFragment());
                     return true;
                 case R.id.navigation_schedule:
+                    FragmentManager fm = getSupportFragmentManager();
+                    for(int i = 0; i < fm.getBackStackEntryCount(); ++i) {
+                        fm.popBackStack();
+                    }
                     setContent(new ScheduleFragment());
                     return true;
             }
@@ -49,8 +56,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         // find the retained fragment on activity restarts
         FragmentManager fm = getSupportFragmentManager();
-        mContent = fm.findFragmentByTag("content");
-        Log.d("CONTENT2", mContent+"");
+        mContent = fm.findFragmentByTag(TAG_CONTENT);
 
         setContentView(R.layout.activity_main);
 
@@ -58,8 +64,8 @@ public class MainActivity extends AppCompatActivity {
             setContent(new ShowListFragment());
         }
 
-        navigation = (BottomNavigationView) findViewById(R.id.navigation);
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        mNavigation = (BottomNavigationView) findViewById(R.id.navigation);
+        mNavigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         // Declare our toolbar and apply it to our layout
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
@@ -74,6 +80,8 @@ public class MainActivity extends AppCompatActivity {
 
         //Save the fragment's instance
         if (mContent != null) {
+            Log.d("Content null?", mContent+"");
+
             if (mContent.isAdded()) {
                 getSupportFragmentManager().putFragment(outState, TAG_CONTENT, mContent);
             }
@@ -95,11 +103,10 @@ public class MainActivity extends AppCompatActivity {
 
         if (mContent != null) {
             if (mContent instanceof ShowListFragment) {
-                navigation.getMenu().getItem(0).setChecked(true);
+                mNavigation.getMenu().getItem(0).setChecked(true);
             }
             if (mContent instanceof ScheduleFragment) {
-                navigation.getMenu().getItem(1).setChecked(true);
-
+                mNavigation.getMenu().getItem(1).setChecked(true);
             }
         }
     }

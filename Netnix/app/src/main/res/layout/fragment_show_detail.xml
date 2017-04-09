@@ -1,92 +1,136 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:elevation="10dp"
-        android:orientation="horizontal"
-        android:layout_marginTop="10dp">
-
-    <android.support.v7.widget.CardView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:card_view="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/card_view"
-        android:layout_gravity="left"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        card_view:cardElevation="10dp"
-        card_view:cardCornerRadius="10dp"
-        card_view:cardPreventCornerOverlap="false">
-
-            <android.support.v7.widget.AppCompatImageView xmlns:android="http://schemas.android.com/apk/res/android"
-                android:orientation="vertical"
-                android:layout_width="150dp"
-                android:layout_height="220dp"
-                android:id="@+id/image"
-                android:scaleType="fitXY"/>
-
-    </android.support.v7.widget.CardView>
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:elevation="10dp"
-            android:orientation="vertical"
-            android:layout_marginTop="10dp">
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:elevation="10dp"
+                android:orientation="vertical">
+
+                <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_margin="10dp"
+                    card_view:cardCornerRadius="10dp"
+                    card_view:cardElevation="10dp"
+                    card_view:cardPreventCornerOverlap="false">
+
+                    <android.support.v7.widget.AppCompatImageView xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:id="@+id/image"
+                        android:layout_width="150dp"
+                        android:layout_height="220dp"
+                        android:orientation="vertical"
+                        android:scaleType="fitXY" />
+
+                </android.support.v7.widget.CardView>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:elevation="10dp"
+                android:orientation="vertical">
+
+                <me.grantland.widget.AutofitTextView xmlns:autofit="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    android:maxLines="1"
+                    android:minHeight="50dp"
+                    autofit:minTextSize="16sp"
+                    android:textSize="40dp" />
+
+                <me.grantland.widget.AutofitTextView
+                    android:id="@+id/genres"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:maxLines="1"
+                    android:textStyle="italic"
+                    android:textAlignment="center"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/network"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin" />
+
+                <TextView
+                    android:id="@+id/status"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/activity_vertical_margin"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:textStyle="italic" />
 
 
-        <TextView
-        android:id="@+id/title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/activity_vertical_margin"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:layout_marginTop="@dimen/activity_vertical_margin" />
+                <RatingBar
+                    android:id="@+id/rating"
+                    style="?android:attr/ratingBarStyleIndicator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
 
-        <TextView
-            android:id="@+id/status"
-            android:layout_width="wrap_content"
+                    android:layout_marginBottom="@dimen/activity_vertical_margin" />
+
+                <Button
+                    android:id="@+id/followBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/activity_vertical_margin"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:textColor="@color/cardview_light_background"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/check_episodes"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/activity_vertical_margin"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:layout_marginTop="@dimen/activity_vertical_margin" />
+            android:text="check seasons"
+            android:textColor="@color/colorPrimary"
+            android:background="@drawable/button_border"
+            android:visibility="gone" />
 
-            <RatingBar
-                android:id="@+id/rating"
-                style="?android:attr/ratingBarStyleIndicator"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-        </LinearLayout>
+        <WebView
+            android:id="@+id/summary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin" />
 
     </LinearLayout>
-
-    <WebView
-        android:id="@+id/summary"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/activity_vertical_margin"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin" />
-
-    <HorizontalScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:scrollbarFadeDuration="0">
-
-        <android.support.v7.widget.RecyclerView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:id="@+id/my_recycler_view"
-            android:orientation="horizontal" />
-
-    </HorizontalScrollView>
-
-</LinearLayout>
+</ScrollView>

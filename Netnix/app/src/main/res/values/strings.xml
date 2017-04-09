@@ -1,10 +1,28 @@
 <resources>
-    <string name="app_name">Netnix</string>
+    <string name="app_name" translatable="false">Netnix</string>
     <string name="title_shows">Shows</string>
-    <string name="title_episodes">Episodes</string>
     <string name="title_schedule">Schedule</string>
-    <string name="search_hint">Search shows...</string>
+    <string name="search_hint">Search shows…</string>
+    <string name="my_shows">My shows</string>
+    <string name="follow">Follow</string>
+    <string name="unfollow">Unfollow</string>
+    <string name="check_seasons">Check seasons</string>
+    <string name="season_number">Season %1$d</string>
+    <string name="episode_number">Episode %1$d</string>
+    <string name="watched">Watched</string>
+    <string name="not_watched">Not watched</string>
+    <string name="updated_shows">Updated %1$s.</string>
+    <string name="watched_episodes" translatable="false">%1$d / %2$d</string>
+    <string name="today">Today</string>
+    <string name="tomorrow">Tomorrow</string>
+    <string name="no_episodes_available">This season has no episodes available yet.</string>
+    <string name="no_shows_followed">No shows follow yet.\n\nPlease follow a show in order to track its schedule.</string>
+    <string name="known_schedule">Showing known schedule for your shows.</string>
+    <string name="agenda_toast">Click on an item to add it to your agenda.</string>
+    <string name="unable_to_load_show_data">Unable to load show data.</string>
+    <string name="show_status">Status: %1$s</string>
+    <string name="follow_message">Now following %1$s, added %2$d unwatched episodes to the backlog.</string>
+    <string name="search_results_for">Search results for \'%1$s\'…</string>
+    <string name="no_shows_found">No shows found for \'%1$s\'…</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

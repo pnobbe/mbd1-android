@@ -3,5 +3,8 @@
     <color name="colorPrimary">#c11f1f</color>
     <color name="colorPrimaryDark">#b11a1a</color>
     <color name="colorAccent">#d14d4d</color>
+    <color name="colorAccept">#3dc11f</color>
+    <color name="colorAcceptLight">#79c967</color>
+    <color name="colorDecline">#c14a1f</color>
     <color name="foreground_material_light">#030303</color>
 </resources>
